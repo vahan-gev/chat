@@ -1,0 +1,41 @@
+body,html {
+  font-family: 'Rowdies', cursive;
+  margin: 0;
+  padding:  0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  background-color: #9cb4b3;
+}
+
+#chat-window {
+  display: flex;
+  flex-flow: column;
+  height: 100%; 
+}
+#messages-window {
+  background-color: #b4b7ba; 
+  padding: 10px;
+  flex-grow : 1;
+  overflow: auto;
+}
+P {
+  color: #091928;
+  margin-bottom: 3px;
+  font-size: 22px;
+}
+b {
+  color: #9d00ff;
+}
+.label {
+  color: gray;
+}
+#input-window {
+  background: white;
+  padding: 10px;
+
+}
+
+.submit-button {
+  width:  100%;
+}
