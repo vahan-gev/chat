@@ -1,6 +1,6 @@
 var username;
-
-const socket = io.connect("http://localhost:3000");
+var roomName;
+const socket = io.connect("http://192.168.2.66:3000");
 
 function main() {
   const messDiv = document.getElementById("messages-window");
@@ -8,11 +8,13 @@ function main() {
   const button = document.getElementById("submit");
 
   const addParticipantsMessage = (data) => {
-    var message = "Welcome, ";
+    // WORKING
+    var message = `Welcome to room ${data.roomName}, `;
     if (data.numUsers === 1) {
       message += "only you are online";
     } else {
-      message += "there are " + data.numUsers + " participants online";
+      message +=
+        "there are " + data.numUsers + " participants online in the room";
     }
     addChatMessage({
       username: "Server",
@@ -21,10 +23,12 @@ function main() {
   };
 
   const setUsername = () => {
-    username = prompt("Please enter your name");
-
-    if (username) {
-      socket.emit("add user", username);
+    username = prompt("Enter your name");
+    roomName = prompt("Enter room name");
+    if (username && roomName) {
+      socket.emit("add user", { username: username, roomName: roomName });
+    } else {
+      alert("Something went wrong! Try again.");
     }
   };
 
@@ -59,23 +63,29 @@ function main() {
   });
 
   socket.on("new message", (data) => {
-    addChatMessage(data);
+    if (data.roomName === roomName) {
+      addChatMessage(data);
+    }
   });
 
   socket.on("user joined", (data) => {
-    message = data.username + " joined";
-    addChatMessage({
-      username: "Server",
-      message: message,
-    });
+    message = data.username + " joined the room";
+    if (data.roomName === roomName) {
+      addChatMessage({
+        username: "Server",
+        message: message,
+      });
+    }
   });
 
   socket.on("user left", (data) => {
     message = data.username + " left";
-    addChatMessage({
-      username: "Server",
-      message: message,
-    });
+    if (data.roomName === roomName) {
+      addChatMessage({
+        username: "Server",
+        message: message,
+      });
+    }
   });
 
   button.onclick = sendMessage;
