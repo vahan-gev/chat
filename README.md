@@ -1,4 +1,3 @@
 # chat
-Real time chat application built using Node.js, Socket.io and Express.
-
-Currently working on chat rooms.
+Real time chat application with rooms.
+This project is built using Node.js, Socket.io and Express.
